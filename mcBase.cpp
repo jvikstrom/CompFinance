@@ -14,7 +14,7 @@ Wiley, 2018
 As long as this comment is preserved at the top of the file
 */
 
-#pragma warning(disable:4267)
+#pragma warning(disable : 4267)
 
 #include "mcBase.h"
 
@@ -22,7 +22,7 @@ As long as this comment is preserved at the top of the file
 Time systemTime = 0.0;
 
 //  If T = Number : put on tape
-template <>
-void putParametersOnTapeT<>(Model<Number>& model) {
-    for (Number* param : model.parameters()) param->putOnTape();
+template <> void putParametersOnTapeT<>(Model<Number> &model) {
+  for (Number *param : model.parameters())
+    param->putOnTape();
 }

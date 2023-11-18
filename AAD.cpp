@@ -23,4 +23,4 @@ size_t Node::numAdj = 1;
 bool Tape::multi = false;
 
 Tape globalTape;
-thread_local Tape* Number::tape = &globalTape;
+thread_local Tape *Number::tape = &globalTape;

@@ -26,49 +26,47 @@ As long as this comment is preserved at the top of the file
 #include <exception>
 using namespace std;
 
-class Node 
-{
-	friend class Tape;
-	friend class Number;
-	friend auto setNumResultsForAAD(const bool, const size_t);
-	friend struct numResultsResetterForAAD;
+class Node {
+  friend class Tape;
+  friend class Number;
+  friend auto setNumResultsForAAD(const bool, const size_t);
+  friend struct numResultsResetterForAAD;
 
-    //  The adjoint(s) 
-	//	in single case, self held (chapter 10)
-	double			mAdjoint = 0;
-	//	in multi case, held separately and accessed by pointer (chapter 14)
-    double*         pAdjoints;  
+  //  The adjoint(s)
+  //	in single case, self held (chapter 10)
+  double mAdjoint = 0;
+  //	in multi case, held separately and accessed by pointer (chapter 14)
+  double *pAdjoints;
 
-	//  Data lives in separate memory
+  //  Data lives in separate memory
 
-    //  the n derivatives to arguments,
-    double*         pDerivatives;    
+  //  the n derivatives to arguments,
+  double *pDerivatives;
 
-    //  the n pointers to the adjoints of arguments
-    double**        pAdjPtrs;
+  //  the n pointers to the adjoints of arguments
+  double **pAdjPtrs;
 
-    //  Number of adjoints (results) to propagate, usually 1
-    //  See chapter 14
-    static size_t   numAdj;
+  //  Number of adjoints (results) to propagate, usually 1
+  //  See chapter 14
+  static size_t numAdj;
 
-    //  Number of childs (arguments)
-    const size_t    n;
+  //  Number of childs (arguments)
+  const size_t n;
 
 public:
+  Node(const size_t N = 0);
 
-    Node(const size_t N = 0);
+  //  Access to adjoint(s)
+  //	single
+  double &adjoint();
+  //	multi
+  double &adjoint(const size_t n);
 
-    //  Access to adjoint(s)
-	//	single
-    double& adjoint();
-	//	multi
-	double& adjoint(const size_t n);
-    
-    //  Back-propagate adjoints to arguments adjoints
+  //  Back-propagate adjoints to arguments adjoints
 
-    //  Single case, chapter 10
-    void propagateOne();
+  //  Single case, chapter 10
+  void propagateOne();
 
-    //  Multi case, chapter 14
-    void propagateAll();
+  //  Multi case, chapter 14
+  void propagateAll();
 };
