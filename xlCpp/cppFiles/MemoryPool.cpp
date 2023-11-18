@@ -46,34 +46,3 @@ void MemoryPool::ClearPool(void)
 	delete [] m_rgchMemBlock;
 }
 
-//
-// Advances the index forward by the given number of bytes.
-// Should there not be enough memory, or the number of bytes
-// is not allowed, this method will return 0. Can be called
-// and used exactly as malloc().
-//
-LPSTR MemoryPool::GetTempMemory(int cBytes)
-{
-	LPSTR lpMemory;
-
-	if (m_ichOffsetMemBlock + cBytes > MEMORYSIZE || cBytes <= 0)
-	{
-		return 0;
-	}
-	else
-	{
-		lpMemory = (LPSTR) m_rgchMemBlock + m_ichOffsetMemBlock;
-		m_ichOffsetMemBlock += cBytes;
-
-		return lpMemory;
-	}
-}
-
-//
-// Frees all the temporary memory by setting the index for
-// available memory back to the beginning
-//
-void MemoryPool::FreeAllTempMemory()
-{
-	m_ichOffsetMemBlock = 0;
-}

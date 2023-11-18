@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mcPrd.h"
+#include "mcBase.h"
 
 /*	A test class, computing statistics on multiple assets on multiple dates
 	On each date T, the payoffs are xi and xixj so their expectations give expectations and covariances

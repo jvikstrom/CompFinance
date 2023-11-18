@@ -24,6 +24,7 @@ This comment must be preserved at all times
 
 #include "matrix.h"
 #include "choldc.h"
+#include "mcBase.h"
 
 template <class T>
 class MultiDisplaced : public Model<T>

@@ -19,6 +19,9 @@ As long as this comment is preserved at the top of the file
 
 //  Blocklist data structure for AAD memory management
 //  See chapter 10, unchanged with expression templates of chapter 15
+#include <math.h>
+
+#include <cstring>
 
 #include <array>
 #include <list>

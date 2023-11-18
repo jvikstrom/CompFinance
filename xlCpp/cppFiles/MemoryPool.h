@@ -11,7 +11,6 @@
 ///***************************************************************************
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 
 //
 // Total amount of memory to allocate for all temporary XLOPERs
@@ -25,8 +24,6 @@ public:
 	MemoryPool(void);
 	~MemoryPool(void);
 	void ClearPool(void);
-	LPSTR GetTempMemory(int cBytes);
-	void FreeAllTempMemory();
 
 	DWORD m_dwOwner;			// ID of ownning thread
 	char* m_rgchMemBlock;		// Memory for temporary XLOPERs

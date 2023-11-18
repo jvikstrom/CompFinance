@@ -18,6 +18,8 @@ As long as this comment is preserved at the top of the file
 
 #pragma once
 
+#include "mcBase.h"
+
 template <class T>
 class BlackScholes : public Model<T>
 {

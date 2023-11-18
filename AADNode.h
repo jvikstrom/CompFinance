@@ -56,48 +56,19 @@ class Node
 
 public:
 
-    Node(const size_t N = 0) : n(N) {}
+    Node(const size_t N = 0);
 
     //  Access to adjoint(s)
 	//	single
-    double& adjoint() 
-    {
-		return mAdjoint;
-	}
+    double& adjoint();
 	//	multi
-	double& adjoint(const size_t n) { return pAdjoints[n]; }
+	double& adjoint(const size_t n);
     
     //  Back-propagate adjoints to arguments adjoints
 
     //  Single case, chapter 10
-    void propagateOne() 
-{
-		//  Nothing to propagate
-		if (!n || !mAdjoint) return;
-
-		for (size_t i = 0; i < n; ++i)
-        {
-			*(pAdjPtrs[i]) += pDerivatives[i] * mAdjoint;
-        }
-    }
+    void propagateOne();
 
     //  Multi case, chapter 14
-    void propagateAll()
-{
-        //  No adjoint to propagate
-        if (!n || all_of(pAdjoints, pAdjoints + numAdj,
-            [](const double& x) { return !x; }))
-            return;
-
-        for (size_t i = 0; i < n; ++i)
-        {
-            double *adjPtrs = pAdjPtrs[i], ders = pDerivatives[i];
-
-            //  Vectorized!
-            for (size_t j = 0; j < numAdj; ++j)
-            {
-                adjPtrs[j] += ders * pAdjoints[j];
-            }
-        }
-    }
+    void propagateAll();
 };

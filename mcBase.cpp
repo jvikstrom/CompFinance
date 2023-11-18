@@ -20,3 +20,9 @@ As long as this comment is preserved at the top of the file
 
 //  Static
 Time systemTime = 0.0;
+
+//  If T = Number : put on tape
+template <>
+void putParametersOnTapeT<>(Model<Number>& model) {
+    for (Number* param : model.parameters()) param->putOnTape();
+}

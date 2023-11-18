@@ -198,29 +198,23 @@ public:
     {
         return const_cast<Model*>(this)->parameters().size();
     }
-
-    //  Put parameters on tape, only valid for T = Number
-    void putParametersOnTape()
-    {
-        putParametersOnTapeT<T>();
-    }
-
-private:
-
-    //  If T not Number : do nothing
-    template<class U> 
-    void putParametersOnTapeT()
-    {
-
-    }
-
-    //  If T = Number : put on tape
-    template <>
-    void putParametersOnTapeT<Number>()
-    {
-        for (Number* param : parameters()) param->putOnTape();
-    }
 };
+
+
+template<class T>
+//  If T not Number : do nothing
+void putParametersOnTapeT(Model<T>& model) {}
+
+//  Put parameters on tape, only valid for T = Number
+template<class T>
+void putModelParametersOnTape(Model<T>& model) {
+    putParametersOnTapeT<T>(model);
+}
+template<class T>
+void putModelParametersOnTape(std::unique_ptr<Model<T>>& model) {
+    putParametersOnTapeT<T>(*model);
+}
+
 
 //  Random number generators
 //  ========================
@@ -459,7 +453,7 @@ mcSimulAAD(
 	auto resetter = setNumResultsForAAD();
 	//  Put parameters on tape
     //  note that also initializes all adjoints
-    cMdl->putParametersOnTape();
+    putModelParametersOnTape(cMdl);
     //  Init the simulation timeline
     //  CAREFUL: simulation timeline must be on tape
     //  Hence moved here
@@ -548,7 +542,7 @@ inline void initModel4ParallelAAD(
     tape.rewind();
     //  Put parameters on tape
     //  note that also initializes all adjoints
-    clonedMdl.putParametersOnTape();
+    putModelParametersOnTape(clonedMdl);
     //  Init the simulation timeline
     //  CAREFUL: simulation timeline must be on tape
     //  Hence moved here
@@ -799,7 +793,7 @@ mcSimulAADMulti(
     //  Reset to 1D is automatic when resetter exits scope
 	auto resetter = setNumResultsForAAD(true, nPay);
 
-    cMdl->putParametersOnTape();
+    putModelParametersOnTape(cMdl);
 	cMdl->init(prd.timeline(), prd.defline());
 	initializePath(path);
 	tape.mark();

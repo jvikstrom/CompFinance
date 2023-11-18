@@ -94,7 +94,7 @@ public:
         //  Push on the left
         if (LHS::numNumbers > 0)
         {
-            lhs.pushAdjoint<N, n>(
+            lhs.template pushAdjoint<N, n>(
                 exprNode, 
                 adjoint * OP::leftDerivative(lhs.value(), rhs.value(), value()));
         }
@@ -104,7 +104,7 @@ public:
         {
             //  Note left push processed LHS::numNumbers numbers
             //  So the next number to be processed is n + LHS::numNumbers
-            rhs.pushAdjoint<N, n + LHS::numNumbers>(
+            rhs.template pushAdjoint<N, n + LHS::numNumbers>(
                 exprNode, 
                 adjoint * OP::rightDerivative(lhs.value(), rhs.value(), value()));
         }
@@ -352,7 +352,7 @@ public:
         //  Push into argument
         if (ARG::numNumbers > 0)
         {
-            arg.pushAdjoint<N, n>(
+            arg.template pushAdjoint<N, n>(
                 exprNode, 
                 adjoint * OP::derivative(arg.value(), value(), dArg));
         }
@@ -873,13 +873,15 @@ class Number : public Expression<Number>
     template<class E>
     void fromExpr(
         //  RHS expression, will be flattened into this Number
+        //const E& e)
         const Expression<E>& e)
     {
         //  Build expression node on tape
         auto* node = createMultiNode<E::numNumbers>();
         
         //  Push adjoints through expression with adjoint = 1 on top
-        static_cast<const E&>(e).pushAdjoint<E::numNumbers, 0>(*node, 1.0);
+        //e.pushAdjoint<typename E::numNumbers, 0>(*node, 1.0);
+        static_cast<const E&>(e).template pushAdjoint<E::numNumbers, 0>(*node, 1.0);
 
         //  Set my node
         myNode = node;

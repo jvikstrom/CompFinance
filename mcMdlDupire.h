@@ -22,6 +22,7 @@ As long as this comment is preserved at the top of the file
 #include "matrix.h"
 #include "interp.h"
 #include "utility.h"
+#include "mcBase.h"
 
 #define HALF_DAY 0.00136986301369863
 
